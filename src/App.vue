@@ -9,6 +9,11 @@
       <pre v-else>
         try
 
+        { "$ref": "/example-schema.json" }
+
+        or
+
+
         {
           "$id": "https://example.com/person.schema.json",
           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -63,7 +68,7 @@ export default {
 
   },
   data: function() {
-    let rawSchema = localStorage.getItem('schema')
+    let rawSchema = (window.location.hash != null ? decodeURIComponent(window.location.hash.substring(1)) : null) || localStorage.getItem('schema')
     const {schema, error} = parseRawInput(rawSchema)
 
     return {
