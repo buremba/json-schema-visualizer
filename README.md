@@ -1,29 +1,21 @@
 # json-schema-visualizer
 
+[See example](https://json-schema-visualizer.netlify.com).
+
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads for development the example
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
+### Usage
 ```
-npm run test
-```
+import JsonSchema as 'src/components/JsonSchema'
 
-### Lints and fixes files
+<json-schema :value="schema"/>
 ```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
