@@ -1,8 +1,11 @@
 <template>
-  <div id="app" class="columns is-gapless" style="margin:0;padding:0">
-    <textarea v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema" class="column is-one-third" style="margin:0 20px;min-height:500px" />
-    <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
-    <span v-else>
+    <div id="app" class="columns is-gapless" style="margin:0;padding:0">
+      <iframe src="https://ghbtns.com/github-btn.html?user=buremba&repo=json-schema-visualizer&type=watch&count=true&size=large" style="position: fixed; right: 0; top: 10px;" frameborder="0" scrolling="0" width="170px" height="30px"></iframe>
+
+        <textarea v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema"
+                  class="column is-one-third" style="margin:0 20px;min-height:500px"/>
+        <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
+        <span v-else>
       <span v-if="error != null" style="color:red">
         Error parsing JSON: {{error}}
       </span>
@@ -37,49 +40,49 @@
         }
       </pre>
     </span>
-  </div>
+    </div>
 </template>
 
 <script>
-import JsonSchema from './components/JsonSchema.vue'
+  import JsonSchema from './components/JsonSchema.vue'
 
-const parseRawInput = (value) => {
-  try {
-    const schema = JSON.parse(value)
-    const error = null
-    localStorage.setItem('schema', value)
-    return {schema, error}
-  } catch (error) {
-    return {error}
-  }
-}
-
-export default {
-  name: 'app',
-  components: {
-    JsonSchema
-  },
-  methods: {
-    changeInput: function(value) {
-      if(value == '') {
-        this.error = this.schema = null
-      } else {
-        const {schema, error} = parseRawInput(value)
-        this.schema = schema
-        this.error = error
-      }
-    },
-
-  },
-  data: function() {
-    let rawSchema = (window.location.hash != null ? decodeURIComponent(window.location.hash.substring(1)) : null) || localStorage.getItem('schema')
-    const {schema, error} = parseRawInput(rawSchema)
-
-    return {
-      rawSchema: rawSchema || '',
-      schema: schema,
-      error: error,
+  const parseRawInput = (value) => {
+    try {
+      const schema = JSON.parse(value)
+      const error = null
+      localStorage.setItem('schema', value)
+      return {schema, error}
+    } catch (error) {
+      return {error}
     }
   }
-}
+
+  export default {
+    name: 'app',
+    components: {
+      JsonSchema
+    },
+    methods: {
+      changeInput: function (value) {
+        if (value == '') {
+          this.error = this.schema = null
+        } else {
+          const {schema, error} = parseRawInput(value)
+          this.schema = schema
+          this.error = error
+        }
+      },
+
+    },
+    data: function () {
+      let rawSchema = (window.location.hash != null ? decodeURIComponent(window.location.hash.substring(1)) : null) || localStorage.getItem('schema')
+      const {schema, error} = parseRawInput(rawSchema)
+
+      return {
+        rawSchema: rawSchema || '',
+        schema: schema,
+        error: error,
+      }
+    }
+  }
 </script>
