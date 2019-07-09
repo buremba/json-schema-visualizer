@@ -61,9 +61,13 @@ export default {
   },
   methods: {
     changeInput: function(value) {
-      const {schema, error} = parseRawInput(value)
-      this.schema = schema
-      this.error = error
+      if(value == '') {
+        this.error = this.schema = null
+      } else {
+        const {schema, error} = parseRawInput(value)
+        this.schema = schema
+        this.error = error
+      }
     },
 
   },
