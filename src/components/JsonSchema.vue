@@ -47,9 +47,11 @@
             <a class="title" @click="toggleCollapse"><span
                     class="toggle-handle"></span>{{schema.title}}
                 <span class="opening brace">{</span>
+                <span class="tag default" style="margin-left:5px" v-if="isCollapsed && getParentExample != null"><i>example:</i> {{getParentExample}}</span>
                 <span class="closing brace" v-if="isCollapsed">}</span>
             </a>
 
+            <span class="tag default" style="margin-left:5px" v-if="!isCollapsed && getParentExample != null"><i>example:</i> {{getParentExample}}</span>
             <div class="description">{{schema.description}}</div>
             <div class="property" v-for="(property, propertyName) in schema.properties" :key="propertyName">
                     <span class="name">
@@ -70,7 +72,7 @@
                                :is="`${schema.additionalProperties.type}-icon`" class="property-type"
                                :aria-label="schema.additionalProperties.type"
                                :title="schema.additionalProperties.type"/>
-                    exampleKey:
+                                        {{(schema.examples != null && schema.examples.length) > 0 ? Object.keys(schema.examples[0])[0] : 'exampleKey' }} ::
                 </span>
                 <json-schema :value="schema.additionalProperties" :level="level + 1" />
 
@@ -110,6 +112,15 @@
       }
     },
     computed: {
+      getParentExample: function () {
+        let schema = this.$parent.schema
+        if(this.$parent != null && schema != null && schema.examples != null && schema.examples.length > 0) {
+          let example = schema.examples[0]
+          let key = Object.keys(example)[0]
+          return JSON.stringify(key) + " : " + JSON.stringify(example[key])
+        }
+        return null
+      },
       isPrimitive: function () {
         return this.schema &&
           !this.schema.properties &&
