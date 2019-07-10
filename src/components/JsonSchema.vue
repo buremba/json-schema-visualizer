@@ -72,7 +72,7 @@
                                :is="`${schema.additionalProperties.type}-icon`" class="property-type"
                                :aria-label="schema.additionalProperties.type"
                                :title="schema.additionalProperties.type"/>
-                                        {{(schema.examples != null && schema.examples.length) > 0 ? Object.keys(schema.examples[0])[0] : 'exampleKey' }} ::
+                                        {{(schema.examples != null && schema.examples.length) > 0 ? Object.keys(schema.examples[0])[0] : 'exampleKey' }} :
                 </span>
                 <json-schema :value="schema.additionalProperties" :level="level + 1" />
 
