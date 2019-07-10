@@ -6,7 +6,7 @@
     <div v-else class="json-schema-view" :class="{collapsed: isCollapsed}">
         <!-- Primitive -->
         <span v-if="isPrimitive">
-            <a class="title" @click="isCollapsed = !isCollapsed" :class="{clickable : hasDetails}">
+            <a class="title" @click="toggleCollapse" :class="{clickable : hasDetails}">
                 <span class="toggle-handle" :class="{collapsed: isCollapsed}" v-if="hasDetails"></span>
                 <span v-else>
                      <span v-if="schema.const">
@@ -24,28 +24,27 @@
             <span class="tag default exclusiveMaximum" v-if="schema.exclusiveMaximum">(ex)maximum:{{schema.exclusiveMaximum}}</span>
             <span class="tag default minLength" v-if="schema.minLength">minimum length:{{schema.minLength}}</span>
             <span class="tag default maxLength" v-if="schema.maxLength">maximum length:{{schema.maxLength}}</span>
-            <json-schema-props v-if="hasDetails && !isCollapsed" :value="schema" :level="level"/>
+            <json-schema-props v-if="hasDetails && !isCollapsed" :value="schema" :level="currentLevel"/>
         </span>
 
 
         <!-- Array -->
         <div v-if="isArray" class="array">
-            <a class="title" @click="isCollapsed = !isCollapsed">
+            <a class="title" @click="toggleCollapse">
                 {{schema.title}} <span class="opening bracket">[</span>
-                <json-schema v-if="schema.items != null" :value="schema.items"
-                             :level="level + 1"></json-schema>
+                <json-schema v-if="schema.items != null" :value="schema.items" :level="level + 1" />
                 <span class="closing bracket" v-if="isCollapsed">]</span>
             </a>
             <span v-if="schema.minItems || schema.maxItems" title="tag items range">({{schema.minItems || 0}}..{{schema.maxItems || '∞'}})</span>
             <span class="tag unique" title="uniqueItems" v-if="schema.uniqueItems">♦</span>
 
-            <json-schema-props v-if="!isCollapsed" :value="schema" :level="level"/>
+            <json-schema-props v-if="!isCollapsed" :value="schema" :level="currentLevel"/>
             <span class="closing bracket" v-if="!isCollapsed">]</span>
         </div>
 
         <!-- Object -->
         <div v-if="!isPrimitive && !isArray" class="object">
-            <a class="title" @click="isCollapsed = !isCollapsed"><span
+            <a class="title" @click="toggleCollapse"><span
                     class="toggle-handle"></span>{{schema.title}}
                 <span class="opening brace">{</span>
                 <span class="closing brace" v-if="isCollapsed">}</span>
@@ -77,7 +76,7 @@
 
             </div>
 
-            <json-schema-props v-if="schema && !isCollapsed" :value="schema" :level="level"/>
+            <json-schema-props v-if="schema && !isCollapsed" :value="schema" :level="currentLevel"/>
             <span class="closeing brace" v-if="!isCollapsed">}</span>
         </div>
     </div>
@@ -106,7 +105,8 @@
       return {
         loading: false,
         schema: false,
-        isCollapsed: this.level > 3
+        isCollapsed: this.level > 4,
+        currentLevel: this.level
       }
     },
     computed: {
@@ -129,9 +129,18 @@
       }
     },
     created: async function () {
-      this.schema = await $RefParser.dereference(this.value)
+      if(this.level === 1) {
+        this.schema = await $RefParser.dereference(this.value)
+      } else {
+        this.schema = this.value
+      }
     },
     methods: {
+      toggleCollapse: function () {
+        this.isCollapsed = !this.isCollapsed
+          this.currentLevel = 0
+
+      },
       isRequired: function (property, name) {
         const parent = this.$parent.schema
 

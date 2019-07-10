@@ -306,6 +306,7 @@
     },
     "relations":{
       "type":"object",
+      "examples": [{"relationName": {"model": "campaign", "targetColumn": "id", "sourceColumn": "campaign_id"}}],
       "additionalProperties":{
         "type":"object",
         "additionalProperties":false,
@@ -388,9 +389,7 @@
     },
     "measures":{
       "type":"object",
-      "examples":[
-        "measure_name"
-      ],
+      "examples": [{"measureName": {"sql": "total_spent", "aggregation": "sum", "reportOptions": {"prefix": "$"}}}],
       "additionalProperties":{
 
         "type":"object",
@@ -464,6 +463,7 @@
     },
     "dimensions":{
       "type":"object",
+      "examples": [{"dimensionName": {"column": "campaign_name" }}],
       "additionalProperties":{
         "type":"object",
         "dependencies":{

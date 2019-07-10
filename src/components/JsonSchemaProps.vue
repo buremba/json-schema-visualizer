@@ -1,7 +1,7 @@
 <template>
     <span>
         <div v-if="value.description != null" class="description">{{value.description}}</div>
-        <span v-if="value.enum">
+        <p v-if="value.enum">
             <template v-if="value.enum.length > 0">
                 <b>must be one of </b>
                 <span v-for="(item, idx) in value.enum" :key="idx" class="tag default"
@@ -9,10 +9,13 @@
                     {{JSON.stringify(item)}}
                 </span>
                 </template>
+            <template v-else-if="value.const">
+                equals {{value.const}}
+            </template>
             <template v-else>
                 is empty array
             </template>
-        </span>
+        </p>
         <span v-if="value.const">
             equals <i>{{value.const}}</i>
         </span>
@@ -29,7 +32,7 @@
     name: 'JsonSchemaProps',
     props: {
       value: Object,
-      level: Number,
+      level: Number
     },
     components: {
       xOf
