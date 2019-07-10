@@ -47,7 +47,7 @@
             <a class="title" @click="toggleCollapse"><span
                     class="toggle-handle"></span>{{schema.title}}
                 <span class="opening brace">{</span>
-                <span class="tag default" style="margin-left:5px" v-if="isCollapsed && getParentExample != null"><i>example:</i> {{getParentExample}}</span>
+                <span class="tag default" style="margin-left:5px" v-if="isCollapsed && getParentExample != null">{{getParentExample}}</span>
                 <span class="closing brace" v-if="isCollapsed">}</span>
             </a>
 
