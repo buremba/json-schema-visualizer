@@ -11,7 +11,8 @@
     "bulma": "^0.7.5",
     "core-js": "^2.6.5",
     "json-schema-ref-parser": "^7.1.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "ajv": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
