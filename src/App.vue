@@ -4,7 +4,7 @@
 
         <textarea v-if="showEditor" v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema"
                   class="column is-one-third" style="margin:0 20px;min-height:500px"/>
-        <!--<json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>-->
+        <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
         <!--<span v-else>-->
           <!--<span v-if="error != null" style="color:red">-->
             <!--Error parsing JSON: {{error}}-->
@@ -41,7 +41,7 @@
           <!--</pre>-->
         <!--</span>-->
 
-      <textarea v-model.lazy="data" @change="validateData" class="column"></textarea>
+      <!--<textarea v-model.lazy="data" @change="validateData" class="column"></textarea>-->
     </div>
 </template>
 
@@ -88,13 +88,13 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const hideEditor = urlParams.get('hideEditor');
-      
+
       return {
         rawSchema: rawSchema || '',
         schema: schema,
         showEditor: hideEditor == null,
         error: error,
-        data: '{"name": "test", "from": {"database": "database", "schema": "schema"}}',
+        // data: '{"name": "test", "from": {"database": "database", "schema": "schema"}}',
       }
     }
   }
