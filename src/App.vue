@@ -1,7 +1,5 @@
 <template>
     <div id="app" class="columns is-gapless" style="margin:0;padding:0">
-      <iframe src="https://ghbtns.com/github-btn.html?user=buremba&repo=json-schema-visualizer&type=watch&count=true&size=large" style="position: fixed; right: 0; top: 10px;" frameborder="0" scrolling="0" width="170px" height="30px"></iframe>
-
         <textarea v-if="showEditor" v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema"
                   class="column is-one-third" style="margin:0 20px;min-height:500px"/>
         <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
