@@ -181,7 +181,7 @@
         font-size: 100%;
         font: inherit;
         vertical-align: baseline;
-        font-family: Consolas,monaco,monospace;
+        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
         font-size: 0;
         display: table-cell;
 
