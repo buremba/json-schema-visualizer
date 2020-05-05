@@ -46,6 +46,8 @@
 <script>
   import JsonSchema from './components/JsonSchema.vue'
   import Ajv from 'ajv'
+  
+  const urlParams = new URLSearchParams(window.location.search);
 
   const parseRawInput = (value) => {
     try {
@@ -81,10 +83,9 @@
       }
     },
     data: function () {
-      let rawSchema = (window.location.hash != null ? decodeURIComponent(window.location.hash.substring(1)) : null) || localStorage.getItem('schema')
+      let rawSchema = (urlParams.get('s') != null ? decodeURIComponent(urlParams.get('s')) : null) || localStorage.getItem('schema')
       const {schema, error} = parseRawInput(rawSchema)
 
-      const urlParams = new URLSearchParams(window.location.search);
       const hideEditor = urlParams.get('hideEditor');
 
       return {
