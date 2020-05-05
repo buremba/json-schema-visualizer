@@ -186,9 +186,10 @@
         display: table-cell;
 
         span.tag {
-            padding: 2px 4px;
+               padding: 2px 4px;
             border-radius: 2px;
-            font-size: .8em;
+            font-size: 10px;
+            color: #707d84;
             line-height: 16px;
 
             &.default {
