@@ -171,7 +171,7 @@
 
     $indent: 7px;
     $font-size: 14px;
-    $bold-color: #333;
+    $bold-color: #929292;
     $required: #F00;
 
     .json-schema-view {
@@ -295,7 +295,7 @@
         }
 
         .name {
-            color: blue;
+            color: #333;
             white-space: nowrap;
         }
 
