@@ -2,46 +2,45 @@
     <div id="app" class="columns is-gapless" style="margin:0;padding:0">
       <iframe src="https://ghbtns.com/github-btn.html?user=buremba&repo=json-schema-visualizer&type=watch&count=true&size=large" style="position: fixed; right: 0; top: 10px;" frameborder="0" scrolling="0" width="170px" height="30px"></iframe>
 
-        <textarea v-if="showEditor" v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema"
-                  class="column is-one-third" style="margin:0 20px;min-height:500px"/>
-        <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
-        <!--<span v-else>-->
-          <!--<span v-if="error != null" style="color:red">-->
-            <!--Error parsing JSON: {{error}}-->
-          <!--</span>-->
-          <!--<pre v-else>-->
-            <!--try-->
+        <textarea v-if="showEditor" v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema" class="column is-one-third" style="margin:0 20px;min-height:500px"/>
+<!--        <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>-->
+        <span v-else>
+          <span v-if="error != null" style="color:red">
+            Error parsing JSON: {{error}}
+          </span>
+          <pre v-else>
+            try
 
-            <!--{ "$ref": "/example-schema.json" }-->
+            { "$ref": "/example-schema.json" }
 
-            <!--or-->
+            or
 
 
-            <!--{-->
-              <!--"$id": "https://example.com/person.schema.json",-->
-              <!--"$schema": "http://json-schema.org/draft-07/schema#",-->
-              <!--"title": "Person",-->
-              <!--"type": "object",-->
-              <!--"properties": {-->
-                <!--"firstName": {-->
-                  <!--"type": "string",-->
-                  <!--"description": "The person's first name."-->
-                <!--},-->
-                <!--"lastName": {-->
-                  <!--"type": "string",-->
-                  <!--"description": "The person's last name."-->
-                <!--},-->
-                <!--"age": {-->
-                  <!--"description": "Age in years which must be equal to or greater than zero.",-->
-                  <!--"type": "integer",-->
-                  <!--"minimum": 0-->
-                <!--}-->
-              <!--}-->
-            <!--}-->
-          <!--</pre>-->
-        <!--</span>-->
+            {
+              "$id": "https://example.com/person.schema.json",
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "title": "Person",
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "description": "The person's first name."
+                },
+                "lastName": {
+                  "type": "string",
+                  "description": "The person's last name."
+                },
+                "age": {
+                  "description": "Age in years which must be equal to or greater than zero.",
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          </pre>
+        </span>
 
-      <!--<textarea v-model.lazy="data" @change="validateData" class="column"></textarea>-->
+      <textarea v-model.lazy="data" @change="validateData" class="column"></textarea>
     </div>
 </template>
 
@@ -77,8 +76,11 @@
       },
       validateData: function() {
         var ajv = new Ajv({allErrors: true, verbose: true, jsonPointers: true }); // options can be passed, e.g. {allErrors: true}
-        var validate = ajv.compile(JSON.parse(this.rawSchema));
-        var valid = validate(JSON.parse(this.data));
+        let schema = JSON.parse(this.rawSchema)
+        let parsedData = JSON.parse(this.data)
+        var validate = ajv.compile(schema);
+        var valid = validate(parsedData);
+
         if (!valid) console.log(validate.errors);
       }
     },
@@ -94,7 +96,7 @@
         schema: schema,
         showEditor: hideEditor == null,
         error: error,
-        // data: '{"name": "test", "from": {"database": "database", "schema": "schema"}}',
+        data: '{"name": "test", "from": {"database": "database", "schema": "schema"}}',
       }
     }
   }
