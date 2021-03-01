@@ -55,7 +55,7 @@
             <div class="description">{{schema.description}}</div>
             <div class="property" v-for="(property, propertyName) in schema.properties" :key="propertyName">
                     <span class="name">
-                                        <component v-if="property.type != null" :is="`${property.type}-icon`"
+                                        <component v-if="property.type != 'null' && typeof(property.type) === 'string'" :is="`${property.type}-icon`"
                                                    class="property-type" :aria-label="property.type"
                                                    :title="property.type"/>
                         {{propertyName}}
@@ -68,7 +68,7 @@
 
             <div class="property" v-if="typeof schema.additionalProperties === 'object' && !isCollapsed">
                 <span class="name">
-                    <component v-if="schema.additionalProperties.type != null"
+                    <component v-if="schema.additionalProperties.type != 'null' && typeof(schema.additionalProperties.type) === 'string' "
                                :is="`${schema.additionalProperties.type}-icon`" class="property-type"
                                :aria-label="schema.additionalProperties.type"
                                :title="schema.additionalProperties.type"/>
@@ -107,7 +107,7 @@
       return {
         loading: false,
         schema: false,
-        isCollapsed: this.level > 4,
+        isCollapsed: this.level > 1,
         currentLevel: this.level
       }
     },
