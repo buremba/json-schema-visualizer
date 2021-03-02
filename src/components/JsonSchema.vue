@@ -32,7 +32,7 @@
         <div v-if="isArray" class="array">
             <a class="title" @click="toggleCollapse">
                 {{schema.title}} <span class="opening bracket">[</span>
-                <json-schema v-if="schema.items != null" :value="schema.items" :level="level + 1" />
+                <json-schema v-if="schema.items != null" :value="schema.items" :level="level + 1"/>
                 <span class="closing bracket" v-if="isCollapsed">]</span>
             </a>
             <span v-if="schema.minItems || schema.maxItems" title="tag items range">({{schema.minItems || 0}}..{{schema.maxItems || '∞'}})</span>
@@ -55,7 +55,8 @@
             <div class="description">{{schema.description}}</div>
             <div class="property" v-for="(property, propertyName) in schema.properties" :key="propertyName">
                     <span class="name">
-                                        <component v-if="property.type != 'null' && typeof(property.type) === 'string'" :is="`${property.type}-icon`"
+                                        <component v-if="property.type != 'null' && typeof(property.type) === 'string'"
+                                                   :is="`${property.type}-icon`"
                                                    class="property-type" :aria-label="property.type"
                                                    :title="property.type"/>
                         {{propertyName}}
@@ -68,13 +69,14 @@
 
             <div class="property" v-if="typeof schema.additionalProperties === 'object' && !isCollapsed">
                 <span class="name">
-                    <component v-if="schema.additionalProperties.type != 'null' && typeof(schema.additionalProperties.type) === 'string' "
-                               :is="`${schema.additionalProperties.type}-icon`" class="property-type"
-                               :aria-label="schema.additionalProperties.type"
-                               :title="schema.additionalProperties.type"/>
+                    <component
+                            v-if="schema.additionalProperties.type != 'null' && typeof(schema.additionalProperties.type) === 'string' "
+                            :is="`${schema.additionalProperties.type}-icon`" class="property-type"
+                            :aria-label="schema.additionalProperties.type"
+                            :title="schema.additionalProperties.type"/>
                                         {{(schema.examples != null && schema.examples.length) > 0 ? Object.keys(schema.examples[0])[0] : 'exampleKey' }} :
                 </span>
-                <json-schema :value="schema.additionalProperties" :level="level + 1" />
+                <json-schema :value="schema.additionalProperties" :level="level + 1"/>
 
             </div>
 
@@ -107,17 +109,17 @@
       return {
         loading: false,
         schema: false,
-        isCollapsed: this.level > 1,
+        isCollapsed: this.level > 4,
         currentLevel: this.level
       }
     },
     computed: {
       getParentExample: function () {
         let schema = this.$parent.schema
-        if(this.$parent != null && schema != null && schema.examples != null && schema.examples.length > 0) {
+        if (this.$parent != null && schema != null && schema.examples != null && schema.examples.length > 0) {
           let example = schema.examples[0]
           let key = Object.keys(example)[0]
-          return JSON.stringify(key) + " : " + JSON.stringify(example[key])
+          return JSON.stringify(key) + ' : ' + JSON.stringify(example[key])
         }
         return null
       },
@@ -140,8 +142,8 @@
       }
     },
     created: async function () {
-      if(this.level === 1) {
-        this.schema = await $RefParser.dereference(this.value)
+      if (this.level === 1) {
+        this.schema = await $RefParser.dereference(this.value, {resolve: {http: {withCredentials: false}}})
       } else {
         this.schema = this.value
       }
@@ -149,7 +151,7 @@
     methods: {
       toggleCollapse: function () {
         this.isCollapsed = !this.isCollapsed
-          this.currentLevel = 0
+        this.currentLevel = 0
 
       },
       isRequired: function (property, name) {
@@ -181,12 +183,12 @@
         font-size: 100%;
         font: inherit;
         vertical-align: baseline;
-        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
         font-size: 0;
         display: table-cell;
 
         span.tag {
-               padding: 2px 4px;
+            padding: 2px 4px;
             border-radius: 2px;
             font-size: 10px;
             color: #707d84;
