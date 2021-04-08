@@ -186,7 +186,7 @@ export default {
   },
   created: async function () {
     if (this.level === 1) {
-      this.schema = await $RefParser.dereference(this.value, {resolve: {http: {withCredentials: false}}})
+      this.schema = await $RefParser.dereference(this.value, {resolve: {http: {headers: {'Origin': document.location.origin}, withCredentials: false}}})
     } else {
       this.schema = this.value
     }
