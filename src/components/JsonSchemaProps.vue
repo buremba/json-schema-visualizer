@@ -55,7 +55,7 @@
     computed: {
       showType: function() {
         if(this.value.type === 'string') {
-          return this.value.enum == this.value.const == null
+          return !(this.value.enum != null && this.value.const != null)
         }
         return this.value.type != null && ignoredTypes.indexOf(this.value.type) == -1
       }
