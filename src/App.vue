@@ -2,7 +2,7 @@
     <div id="app" class="columns is-gapless" style="margin:0;padding:0">
         <textarea v-if="showEditor" v-model.lazy="rawSchema" @change="changeInput($event.target.value)" placeholder="enter schema"
                   class="column is-one-third" style="margin:0 20px;min-height:500px"/>
-        <json-schema v-if="schema != null" v-model="schema" class="column" style="padding-left:10px"/>
+        <json-schema v-if="schema != null" v-model="schema" class="column" :max-level="maxLevel" style="padding-left:10px"/>
         <!--<span v-else>-->
           <!--<span v-if="error != null" style="color:red">-->
             <!--Error parsing JSON: {{error}}-->
@@ -46,7 +46,8 @@
 <script>
   import JsonSchema from './components/JsonSchema.vue'
   import Ajv from 'ajv'
-  
+  import 'hint.css/hint.css'
+
   const urlParams = new URLSearchParams(window.location.search);
 
   const parseRawInput = (value) => {
@@ -76,10 +77,13 @@
         }
       },
       validateData: function() {
-        var ajv = new Ajv({allErrors: true, verbose: true, jsonPointers: true }); // options can be passed, e.g. {allErrors: true}
-        var validate = ajv.compile(JSON.parse(this.rawSchema));
-        var valid = validate(JSON.parse(this.data));
-        if (!valid) console.log(validate.errors);
+        const ajv = new Ajv({allErrors: true, verbose: true, jsonPointers: true }); // options can be passed, e.g. {allErrors: true}
+        const validate = ajv.compile(JSON.parse(this.rawSchema));
+        const valid = validate(JSON.parse(this.data));
+        if (!valid) {
+          // eslint-disable-next-line
+          console.log(validate.errors);
+        }
       }
     },
     data: function () {
@@ -87,11 +91,13 @@
       const {schema, error} = parseRawInput(rawSchema)
 
       const hideEditor = urlParams.get('hideEditor');
+      const maxLevel = urlParams.get('maxLevel') != null ? parseInt(urlParams.get('maxLevel')) : 4;
 
       return {
         rawSchema: rawSchema || '',
         schema: schema,
         showEditor: hideEditor == null,
+        maxLevel: maxLevel,
         error: error,
         // data: '{"name": "test", "from": {"database": "database", "schema": "schema"}}',
       }

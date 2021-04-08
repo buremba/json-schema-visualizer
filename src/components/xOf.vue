@@ -2,14 +2,7 @@
     <div style="background: rgba(238,238,238,0.25); margin: 5px 0;">
         <div style="background: rgb(238, 238, 238); padding:4px; font-weight:bold">{{type.substring(0, 3) + ' of'}} these rules must be conformed:</div>
         <div class="inner" v-for="(schema, idx) in value" :key="idx">
-            <div class="columns is-gapless" v-if="schema.if" style="border-bottom:1px solid #ddd;margin-bottom:10px;padding-bottom:10px">
-                <div class="column">if <json-schema :value="schema.if" :level="level + 1" /> </div>
-                <div v-if="schema.then" class="column">then <json-schema :value="schema.then" :level="level + 1" /></div>
-                <div v-if="schema.else" class="column">else <json-schema :value="schema.else" :level="level + 1" /></div>
-            </div>
-            <span v-if="schema.required">
-                <span class="name required-tag" v-for="item in schema.required" :key="item">{{item}}</span> is required
-            </span>
+           <json-schema :value="schema" :level="level" :max-level="maxLevel" />
         </div>
     </div>
 </template>
@@ -25,7 +18,8 @@
     props: {
       type: String,
       value: Array,
-      level: Number
+      level: Number,
+      maxLevel: Number,
     }
   }
 </script>
